@@ -2,6 +2,8 @@ package com.example.ahnafsadi_cvbuilder;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -11,6 +13,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 
 public class FormController {
 
@@ -43,10 +46,41 @@ public class FormController {
     }
 
     @FXML
-    void onBuildCv(ActionEvent event) {
+    void onBuildCv(ActionEvent event) throws IOException {
+        if (inputName.getText().isBlank() || inputEmail.getText().isBlank()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText(null);
+            alert.setContentText("Please enter at least your name and email.");
+            alert.showAndWait();
+            return;
+        }
+
+        FXMLLoader loader =
+                new FXMLLoader(getClass().getResource("/com/example/ahnafsadi_cvbuilder/showcv.fxml"));
+        Scene scene = new Scene(loader.load());
+        ShowCVController controller = loader.getController();
+
+        ShowCVController.CVData data = new ShowCVController.CVData(
+                inputName.getText(),
+                inputEmail.getText(),
+                inputNumber.getText(),
+                inputAdd.getText(),
+                inputEducation.getText(),
+                inputSkills.getText(),
+                inputWork.getText(),
+                inputProject.getText(),
+                selectedImageFile != null ? selectedImageFile.toURI().toString() : null
+        );
+
+        controller.initData(data);
+
+        Stage stage = (Stage) inputName.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText(null);
-        alert.setContentText("CV preview screen will be added in the next step.");
+        alert.setContentText("CV created");
         alert.showAndWait();
     }
 }

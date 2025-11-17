@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.ahnafsadi_cvbuilder.ShowCVController"
+      style="-fx-background-color: white;"
+      spacing="0">
+
+    <HBox alignment="CENTER_LEFT" spacing="20"
+          style="-fx-background-color: lightgray; -fx-padding: 20;">
+        <ImageView fx:id="profileImageView"
+                   fitHeight="100" fitWidth="100"
+                   preserveRatio="true"
+                   style="-fx-border-color: black; -fx-border-width: 1;"/>
+
+        <VBox spacing="5" alignment="CENTER_LEFT">
+            <Label fx:id="nameLabel" style="-fx-text-fill: black; -fx-font-size: 20;"/>
+            <Label fx:id="phoneLabel" style="-fx-text-fill: black;"/>
+            <Label fx:id="emailLabel" style="-fx-text-fill: black;"/>
+            <Label fx:id="addressLabel" style="-fx-text-fill: black;"/>
+        </VBox>
+    </HBox>
+
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background: white;">
+        <content>
+            <VBox spacing="15" style="-fx-padding: 20;">
+                <VBox spacing="5"
+                      style="-fx-border-color: black; -fx-border-width: 1; -fx-padding: 15;">
+                    <Label text="Education" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+                    <Label fx:id="educationLabel" wrapText="true"/>
+                </VBox>
+
+                <VBox spacing="5"
+                      style="-fx-border-color: black; -fx-border-width: 1; -fx-padding: 15;">
+                    <Label text="Skills" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+                    <Label fx:id="skillsLabel" wrapText="true"/>
+                </VBox>
+
+                <VBox spacing="5"
+                      style="-fx-border-color: black; -fx-border-width: 1; -fx-padding: 15;">
+                    <Label text="Work Experience" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+                    <Label fx:id="workLabel" wrapText="true"/>
+                </VBox>
+
+                <VBox spacing="5"
+                      style="-fx-border-color: black; -fx-border-width: 1; -fx-padding: 15;">
+                    <Label text="Projects" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+                    <Label fx:id="projectsLabel" wrapText="true"/>
+                </VBox>
+            </VBox>
+        </content>
+    </ScrollPane>
+
+</VBox>
