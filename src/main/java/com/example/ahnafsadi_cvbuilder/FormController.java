@@ -57,8 +57,7 @@ public class FormController {
 
 
     private File selectedImageFile;
-
-
+    private final CVRepository repository = CVRepository.getInstance();
 
     @FXML
 
@@ -110,61 +109,96 @@ public class FormController {
 
         }
 
-
-
-        FXMLLoader loader =
-
-                new FXMLLoader(getClass().getResource("/com/example/ahnafsadi_cvbuilder/showcv.fxml"));
-
-        Scene scene = new Scene(loader.load());
-
-        ShowCVController controller = loader.getController();
-
-
-
-        ShowCVController.CVData data = new ShowCVController.CVData(
-
+        
+        String imagePath = selectedImageFile != null ? selectedImageFile.toURI().toString() : null;
+        
+        // Save to database asynchronously
+        repository.insertAsync(
                 inputName.getText(),
-
                 inputEmail.getText(),
-
                 inputNumber.getText(),
-
                 inputAdd.getText(),
-
                 inputEducation.getText(),
-
                 inputSkills.getText(),
-
                 inputWork.getText(),
-
                 inputProject.getText(),
+                imagePath,
+                insertedCV -> {
+                    // Success: Show CV preview
+                    try {
+                        FXMLLoader loader =
+                                new FXMLLoader(getClass().getResource("/com/example/ahnafsadi_cvbuilder/showcv.fxml"));
+                        Scene scene = new Scene(loader.load());
+                        ShowCVController controller = loader.getController();
 
-                selectedImageFile != null ? selectedImageFile.toURI().toString() : null
+                        ShowCVController.CVData data = new ShowCVController.CVData(
+                                inputName.getText(),
+                                inputEmail.getText(),
+                                inputNumber.getText(),
+                                inputAdd.getText(),
+                                inputEducation.getText(),
+                                inputSkills.getText(),
+                                inputWork.getText(),
+                                inputProject.getText(),
+                                imagePath
+                        );
 
+                        controller.initData(data);
+
+                        Stage stage = (Stage) inputName.getScene().getWindow();
+                        stage.setScene(scene);
+                        stage.show();
+
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setHeaderText(null);
+                        alert.setContentText("CV created and saved successfully!");
+                        alert.showAndWait();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Alert err = new Alert(Alert.AlertType.ERROR);
+                        err.setContentText("Failed to load CV preview: " + e.getMessage());
+                        err.showAndWait();
+                    }
+                },
+                error -> {
+                    // Error: Still show CV preview but with warning
+                    error.printStackTrace();
+                    try {
+                        FXMLLoader loader =
+                                new FXMLLoader(getClass().getResource("/com/example/ahnafsadi_cvbuilder/showcv.fxml"));
+                        Scene scene = new Scene(loader.load());
+                        ShowCVController controller = loader.getController();
+
+                        ShowCVController.CVData data = new ShowCVController.CVData(
+                                inputName.getText(),
+                                inputEmail.getText(),
+                                inputNumber.getText(),
+                                inputAdd.getText(),
+                                inputEducation.getText(),
+                                inputSkills.getText(),
+                                inputWork.getText(),
+                                inputProject.getText(),
+                                imagePath
+                        );
+
+                        controller.initData(data);
+
+                        Stage stage = (Stage) inputName.getScene().getWindow();
+                        stage.setScene(scene);
+                        stage.show();
+
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setHeaderText(null);
+                        alert.setContentText("CV created but failed to save to database: " + error.getMessage());
+                        alert.showAndWait();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Alert err = new Alert(Alert.AlertType.ERROR);
+                        err.setContentText("Failed to create CV: " + e.getMessage());
+                        err.showAndWait();
+                    }
+                }
         );
-
-
-
-        controller.initData(data);
-
-
-
-        Stage stage = (Stage) inputName.getScene().getWindow();
-
-        stage.setScene(scene);
-
-        stage.show();
-
-
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-
-        alert.setHeaderText(null);
-
-        alert.setContentText("CV created");
-
-        alert.showAndWait();
 
     }
 
