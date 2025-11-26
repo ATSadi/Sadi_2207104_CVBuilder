@@ -72,6 +72,54 @@ public class ShowCVController {
 
     }
 
+    public void initData(PersonCV cv) {
+
+        nameLabel.setText(cv.getName());
+
+        emailLabel.setText(cv.getEmail());
+
+        phoneLabel.setText(cv.getPhone());
+
+        addressLabel.setText(cv.getAddress());
+
+        educationLabel.setText(toBullets(cv.getEducation()));
+
+        skillsLabel.setText(toBullets(cv.getSkills()));
+
+        workLabel.setText(toBullets(cv.getWork()));
+
+        projectsLabel.setText(toBullets(cv.getProject()));
+
+
+
+        if (cv.getImagePath() != null && !cv.getImagePath().isEmpty()) {
+
+            try {
+
+                Image img = new Image(cv.getImagePath());
+
+                profileImageView.setImage(img);
+
+                profileImageView.setFitWidth(100);
+
+                profileImageView.setFitHeight(100);
+
+                profileImageView.setPreserveRatio(true);
+
+            } catch (Exception e) {
+
+                profileImageView.setImage(null);
+
+            }
+
+        } else {
+
+            profileImageView.setImage(null);
+
+        }
+
+    }
+
 
 
     private String toBullets(String text) {
