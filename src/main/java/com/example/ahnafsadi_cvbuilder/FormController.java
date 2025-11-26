@@ -53,6 +53,8 @@ public class FormController {
     @FXML private TextArea inputProject;
 
     @FXML private ImageView profileImageView;
+    
+    @FXML private javafx.scene.control.Button createButton;
 
 
 
@@ -80,6 +82,10 @@ public class FormController {
             try {
                 profileImageView.setImage(new Image(cv.getImagePath()));
             } catch (Exception ignore) {}
+        }
+        
+        if (createButton != null) {
+            createButton.setText("Update CV");
         }
     }
 

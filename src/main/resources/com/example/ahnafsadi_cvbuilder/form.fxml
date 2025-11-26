@@ -75,7 +75,7 @@
             <padding>
                 <Insets top="10" right="30" bottom="15" left="30"/>
             </padding>
-            <Button text="Create CV" onAction="#onBuildCv"/>
+            <Button fx:id="createButton" text="Create CV" onAction="#onBuildCv"/>
         </HBox>
     </bottom>
 
