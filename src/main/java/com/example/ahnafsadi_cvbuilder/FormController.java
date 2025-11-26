@@ -58,6 +58,30 @@ public class FormController {
 
     private File selectedImageFile;
     private final CVRepository repository = CVRepository.getInstance();
+    private PersonCV updateCV = null;
+    private boolean editMode = false;
+    private Runnable onUpdateCallback = null;
+
+    public void loadForEdit(PersonCV cv, Runnable onUpdateCallback) {
+        editMode = true;
+        updateCV = cv;
+        this.onUpdateCallback = onUpdateCallback;
+
+        inputName.setText(cv.getName());
+        inputEmail.setText(cv.getEmail());
+        inputNumber.setText(cv.getPhone());
+        inputAdd.setText(cv.getAddress());
+        inputEducation.setText(cv.getEducation());
+        inputSkills.setText(cv.getSkills());
+        inputWork.setText(cv.getWork());
+        inputProject.setText(cv.getProject());
+
+        if (cv.getImagePath() != null) {
+            try {
+                profileImageView.setImage(new Image(cv.getImagePath()));
+            } catch (Exception ignore) {}
+        }
+    }
 
     @FXML
 
@@ -107,6 +131,11 @@ public class FormController {
 
             return;
 
+        }
+
+        if (editMode) {
+            updateExistingCV();
+            return;
         }
 
         
@@ -200,6 +229,37 @@ public class FormController {
                 }
         );
 
+    }
+
+    private void updateExistingCV() {
+        PersonCV updated = new PersonCV(
+                updateCV.getId(),
+                inputName.getText(),
+                inputEmail.getText(),
+                inputNumber.getText(),
+                inputAdd.getText(),
+                inputEducation.getText(),
+                inputSkills.getText(),
+                inputWork.getText(),
+                inputProject.getText(),
+                selectedImageFile != null ? selectedImageFile.toURI().toString() : updateCV.getImagePath()
+        );
+
+        repository.updateAsync(updated, () -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("CV updated successfully!");
+            alert.showAndWait();
+
+            if (onUpdateCallback != null) onUpdateCallback.run();
+
+            Stage stage = (Stage) inputName.getScene().getWindow();
+            stage.close();
+
+        }, error -> {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setContentText("Update failed: " + error);
+            a.showAndWait();
+        });
     }
 
 }

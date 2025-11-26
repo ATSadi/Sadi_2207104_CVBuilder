@@ -26,6 +26,11 @@
                     mnemonicParsing="false"
                     onAction="#onClickCreateCv"
                     text="Create your CV"/>
+
+            <Button fx:id="btnViewAllCv"
+                    mnemonicParsing="false"
+                    onAction="#onClickViewAllCv"
+                    text="View All CVs"/>
         </VBox>
     </center>
 </BorderPane>

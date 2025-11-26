@@ -46,4 +46,20 @@ public class HelloController {
 
     }
 
+    @FXML
+
+    void onClickViewAllCv(ActionEvent event) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/ahnafsadi_cvbuilder/cv-data-show.fxml"));
+
+        Scene scene = new Scene(loader.load(), 800, 600);
+
+        Stage stage = (Stage) welcomeLabel.getScene().getWindow();
+
+        stage.setScene(scene);
+
+        stage.show();
+
+    }
+
 }

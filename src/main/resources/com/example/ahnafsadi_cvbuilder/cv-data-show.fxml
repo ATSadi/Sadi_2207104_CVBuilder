@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.ahnafsadi_cvbuilder.CVDataShowController"
+            prefHeight="500" prefWidth="800">
+
+    <center>
+        <VBox spacing="20" alignment="CENTER" style="-fx-padding: 20;">
+            <Label text="All CVs" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+            <TableView fx:id="cvTable" VBox.vgrow="ALWAYS" prefHeight="400" prefWidth="760">
+                <columns>
+                    <TableColumn text="ID" fx:id="idColumn" />
+                    <TableColumn text="Name" fx:id="nameColumn"/>
+                    <TableColumn text="Email" fx:id="emailColumn"/>
+                    <TableColumn text="Phone" fx:id="phoneColumn"/>
+                    <TableColumn text="Address" fx:id="addressColumn"/>
+                    <TableColumn text="Education" fx:id="educationColumn"/>
+                    <TableColumn text="Skills" fx:id="skillsColumn"/>
+                    <TableColumn text="Work" fx:id="workColumn"/>
+                    <TableColumn text="Project" fx:id="projectColumn"/>
+                    <TableColumn text="Actions" fx:id="actionColumn"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+
+    <bottom>
+        <Button text="Add New CV"
+                onAction="#onAddNewCV"
+                prefHeight="50"
+                maxWidth="Infinity"
+                style="-fx-background-color: #4A47D0; -fx-text-fill: white; -fx-font-size: 16;"/>
+    </bottom>
+
+</BorderPane>
+
